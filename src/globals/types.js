@@ -1,4 +1,15 @@
 export const TX_HASH_CHANGED = 'tx_hash_changed';
+export const NEW_TX_LIST = 'new_tx_list';
+export const TX_ADDED_TO_LIST = 'tx_added_to_list';
 export const MY_CONTACTS_FETCHING = 'my_contacts_fetching';
 export const MY_CONTACTS_FETCH_SUCCESS = 'my_contacts_fetch_success';
 export const MY_CONTACTS_FETCH_FAIL = 'my_contacts_fetch_fail';
+export const PHONE_NUMBER_SELECTED = 'phone_number_selected';
+export const PHONE_NUMBER_RESET = 'phone_number_reset';
+export const TRANSACTION_CHECKING = 'transaction_checking';
+export const TRANSACTION_CHECK_SUCCESS = 'transaction_check_success';
+export const TRANSACTION_CHECK_FAIL = 'transaction_check_fail';
+export const PAYMENT_UPDATE_TX_HASH = 'payment_update_tx_hash';
+export const PAYMENTS_LIST_CREATED = 'payments_list_created';
+export const PAYMENT_CREATED = 'payment_created';
+export const PAYMENT_UPDATED = 'payment_updated';

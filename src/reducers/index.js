@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
 import HomeReducer from './HomeReducer';
+import PaymentReducer from './PaymentReducer';
 import PhoneContactsReducer from './PhoneContactsReducer';
+import TransactionReducer from './TransactionReducer';
 
 export default combineReducers({
     home: HomeReducer,
-    phoneContacts: PhoneContactsReducer
+    payment: PaymentReducer,
+    phoneContacts: PhoneContactsReducer,
+    transaction: TransactionReducer
 });

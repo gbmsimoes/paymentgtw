@@ -1,26 +1,32 @@
 import Contacts from 'react-native-contacts';
-import {MY_CONTACTS_FETCH_FAIL, MY_CONTACTS_FETCH_SUCCESS, MY_CONTACTS_FETCHING} from "../globals/types";
+import {
+    MY_CONTACTS_FETCH_FAIL,
+    MY_CONTACTS_FETCH_SUCCESS,
+    MY_CONTACTS_FETCHING, PHONE_NUMBER_RESET,
+    PHONE_NUMBER_SELECTED,
+} from "../globals/types";
 
 export const getMyContactsList = () => {
 
     return (dispatch) => {
-        dispatch({type: MY_CONTACTS_FETCHING});
+        const contactsList = alternateGetContacts();
+        dispatch({ type: MY_CONTACTS_FETCH_SUCCESS, payload: contactsList });
 
-        Contacts.getAll((err, contacts) => {
-            if (err){
-                //dispatch({ type: MY_CONTACTS_FETCH_FAIL, payload: err });
-                const contactsList = alternateGetContacts();
-                dispatch({ type: MY_CONTACTS_FETCH_SUCCESS, payload: contactsList });
-            }
-
-
-
-
-            // contacts returned
-            console.log(contacts)
-            dispatch({ type: MY_CONTACTS_FETCH_SUCCESS, payload: contacts });
-
-        });
+        // dispatch({type: MY_CONTACTS_FETCHING});
+        //
+        // Contacts.getAll((err, contacts) => {
+        //     if (err){
+        //         dispatch({ type: MY_CONTACTS_FETCH_FAIL, payload: err });
+        //     }
+        //
+        //
+        //
+        //
+        //     // contacts returned
+        //     console.log(contacts)
+        //     dispatch({ type: MY_CONTACTS_FETCH_SUCCESS, payload: contacts });
+        //
+        // });
     };
 
 };
@@ -79,7 +85,7 @@ const alternateGetContacts = () => {
             middleName: "",
             phoneNumbers: [{
                 label: "mobile",
-                number: "(555) 555-5555",
+                number: "(555) 555-4242",
             }],
             hasThumbnail: true,
             thumbnailPath: 'content://com.android.contacts/display_photo/3',
@@ -99,4 +105,17 @@ const alternateGetContacts = () => {
     ];
 
 
+};
+
+export const phoneNumberWasSelected = (text) => {
+    return {
+        type: PHONE_NUMBER_SELECTED,
+        payload: text
+    }
+};
+
+export const resetPhoneNumbers = () => {
+    return {
+        type: PHONE_NUMBER_RESET
+    }
 };

@@ -1,18 +1,17 @@
-import { TX_HASH_CHANGED } from "../globals/types";
+import {PAYMENTS_LIST_CREATED} from "../globals/types";
 
 const INITIAL_STATE = {
-    txHash: ''
 
 };
 
 export default (state = INITIAL_STATE, action) => {
 
-    console.log(action);
+    console.log("HomeReducer: " + action);
 
     switch (action.type) {
-         case TX_HASH_CHANGED:
-             return { ...state, error: '', txHash: action.payload };
-               default:
+
+        default:
             return state;
+
     }
 }
