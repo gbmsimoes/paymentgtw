@@ -10,7 +10,8 @@ import {
     updatePayment,
     resetPhoneNumbers,
     createNewPayment,
-    addTransactionToList
+    addTransactionToList,
+    firePushNotification
 } from '../../actions/index';
 
 
@@ -61,9 +62,10 @@ class Payment extends Component{
                 </TouchableOpacity>
             );
         }else{
+            this.props.firePushNotification(this.props.phoneNumber);
             return (
                 <View style={{ alignSelf: 'center' }}>
-                    <Text style={{ alignSelf: 'center' }}>The Payment was successful!</Text>
+                    <Text style={{ alignSelf: 'center', color: 'white', fontSize: 18, fontWeight: 'bold' }}>The Payment was successful!</Text>
 
                     <TouchableOpacity
                         style={ styles.checkTransactionStatusButtonStyle }
@@ -76,6 +78,8 @@ class Payment extends Component{
         }
     }
 
+
+
     onPaymentResetPress() {
         this.props.createNewPayment();
         this.props.resetPhoneNumbers();
@@ -87,13 +91,13 @@ class Payment extends Component{
     }
 
     onContactsPress() {
-        console.log('onContactsPress');
+        if(this.props.txHash !== '' && this.props.currentPayment.status === 0 && this.props.phoneNumber !== '')
+            return;
+
         Actions.phonecontacts();
     }
 
     onCheckTransactionStatusPress() {
-        console.log('onCheckTransactionStatusPress');
-
         if(this.props.phoneNumber === undefined || this.props.phoneNumber === ''){
             this.refs.toast.show('You need a phone number to complete a payment!');
             return;
@@ -107,6 +111,7 @@ class Payment extends Component{
     render() {
         const {
             containerStyle,
+            navBarStyle,
             topContainerStyle,
             bottomContainerStyle,
             textInputStyle,
@@ -116,13 +121,21 @@ class Payment extends Component{
             toastStyle,
             phoneNumberStyle,
             transactionListButton,
-            transactionListButtonText
+            transactionListButtonText,
+            backButtonStyle,
+            backButtonTextStyle
         } = styles;
 
         return (
             <View style={ containerStyle }>
-                <View style={{ height: 64 }}>
-                        <TouchableOpacity
+                <View style={ navBarStyle }>
+                    <TouchableOpacity
+                        style={ backButtonStyle }
+                        onPress={ this.onPaymentResetPress }
+                    >
+                        <Text style={ backButtonTextStyle }>reset</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
                         style={ transactionListButton }
                         onPress={ () => Actions.transactionslist() }
                         >
@@ -150,10 +163,6 @@ class Payment extends Component{
                         />
 
                     </View>
-
-
-
-
                 </View>
                 <View style={ bottomContainerStyle }>
                     { this.checkPaymentStatus() }
@@ -169,7 +178,6 @@ class Payment extends Component{
             </View>
         );
     }
-
 }
 
 const styles = StyleSheet.create({
@@ -178,11 +186,34 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column'
     },
+    navBarStyle: {
+        height: 64,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
     topContainerStyle: {
         flex: 3,
         flexDirection:'column',
         alignItems:'center',
         justifyContent:'center',
+    },
+    transactionListButton: {
+        width: 80,
+        height: 40,
+        //alignSelf: 'flex-end',
+        alignItems: 'center',
+        padding: 10,
+        marginRight: 20
+    },
+    backButtonStyle: {
+        alignItems: 'center',
+        padding: 10,
+        height: 40,
+        width: 80
+    },
+    backButtonTextStyle: {
+        color: 'white'
     },
     bottomContainerStyle: {
         flex: 2,
@@ -247,22 +278,12 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     transactionButtonText: {
-        fontSize: 16,
-        fontWeight: 'bold'
-    },
-    transactionListButton: {
-        width: 80,
-        height: 40,
-        alignSelf: 'flex-end',
-        marginRight: 20,
-        marginTop: 12
+        //color: 'white'
     },
     transactionListButtonText: {
-        alignSelf: 'center',
+        //alignSelf: 'center',
         color: 'white',
-        height: 40,
-        fontWeight: 'bold',
-        fontSize: 18
+
     }
 });
 
@@ -290,5 +311,6 @@ export default connect(mapStateToProps, {
     updatePayment,
     resetPhoneNumbers,
     createNewPayment,
-    addTransactionToList
+    addTransactionToList,
+    firePushNotification
 })(Payment);

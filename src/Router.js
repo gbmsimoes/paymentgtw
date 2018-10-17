@@ -1,6 +1,5 @@
 import React from 'react';
 import { Scene, Router} from 'react-native-router-flux';
-import { Actions } from 'react-native-router-flux';
 import Home from './components/views/Home';
 import Payment from './components/views/Payment';
 import PhoneContactsList from './components/views/PhoneContactsList';

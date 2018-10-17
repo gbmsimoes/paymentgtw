@@ -11,7 +11,6 @@ class TransactionsList extends Component{
         };
 
         this.onBackPressed = this.onBackPressed.bind(this);
-
     }
 
     componentWillMount(){
@@ -23,10 +22,7 @@ class TransactionsList extends Component{
             rowHasChanged: (r1, r2) => r1 !== r2
         });
 
-
         this.state.dataSource = ds.cloneWithRows(transactions);
-
-        //console.log("createDataSource: ", this.state.dataSource);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -35,34 +31,30 @@ class TransactionsList extends Component{
 
     renderRow(transaction) {
         const { txHash, status } = transaction;
-
-
             return (
-                <View style={{ height: 40, backgroundColor: 'green', alignSelf: 'stretch' }}>
-
-
-                            <Text > { txHash + ' - Status: ' + status }</Text>
-                    <View style={{ marginBottom: 0, alignSelf: 'stretch', height: 5, backgroundColor: 'pink' }}/>
+                <View style={ styles.tableCellStyle }>
+                            <Text style={ styles.tableCellTextStyle }>txHash: { txHash }</Text>
+                            <Text style={ styles.tableCellTextStyle }>Status: { status === 1 ? 'Complete' : 'Failed' }</Text>
+                    <View style={ styles.tableCellBottomLineStyle }/>
                 </View>
-            );
-
-    }
+            );    }
 
     onBackPressed() {
         Actions.pop();
     }
 
-
     render () {
         const {
             containerStyle,
             backButtonStyle,
-            backButtonTextStyle
+            backButtonTextStyle,
+            navBarStyle,
+            tableContainerStyle
         } = styles;
 
         return (
             <View style={ containerStyle }>
-                <View style={ { height: 64, backgroundColor: 'red', flexDirection: 'row', alignItems: 'center' } }>
+                <View style={ navBarStyle }>
                     <TouchableOpacity
                         style={ backButtonStyle }
                         onPress={ this.onBackPressed }
@@ -70,7 +62,7 @@ class TransactionsList extends Component{
                         <Text style={ backButtonTextStyle }>back</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={ { flex: 1, backgroundColor: 'yellow', marginLeft: 10, marginRight: 10 } }>
+                <View style={ tableContainerStyle }>
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
@@ -84,7 +76,7 @@ class TransactionsList extends Component{
 
 const styles = StyleSheet.create({
     containerStyle: {
-        backgroundColor: 'blue',
+        backgroundColor: '#2e3375',
         flex: 1,
         flexDirection: 'column'
     },
@@ -94,15 +86,47 @@ const styles = StyleSheet.create({
         height: 40,
         width: 80
     },
+    navBarStyle: {
+        height: 64,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
     backButtonTextStyle: {
         color: 'white'
+    },
+    tableContainerStyle: {
+        flex: 1,
+        marginLeft: 10,
+        marginRight: 10
+    },
+    tableCellButtonStyle: {
+        backgroundColor: 'rgba(0,0,0,0.25)',
+        alignSelf: 'stretch',
+        height: 48
+    },
+    tableCellStyle: {
+        height: 100,
+        backgroundColor: '#322c75',
+        alignSelf: 'stretch',
+        marginBottom: 2
+    },
+    tableCellTextStyle: {
+        alignSelf: 'center',
+        marginTop: 12,
+        color: 'white',
+        fontSize: 16
+    },
+    tableCellBottomLineStyle: {
+        marginBottom: 0,
+        alignSelf: 'stretch',
+        height: 2,
+        backgroundColor: '#555'
     }
 });
 
 const mapStateToProps = ({ transaction }) => {
     const { transactions } = transaction;
 
-    debugger;
     return {
         transactions,
     };

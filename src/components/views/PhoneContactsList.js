@@ -10,10 +10,8 @@ class PhoneContactsList extends Component{
         this.state = {
         };
 
-        PhoneContactsList.onBackPressed = PhoneContactsList.onBackPressed.bind(this);
+        this.onBackPressed = this.onBackPressed.bind(this);
         this.onPhoneNumberPressed = this.onPhoneNumberPressed.bind(this);
-
-
     }
 
     componentWillMount(){
@@ -25,11 +23,7 @@ class PhoneContactsList extends Component{
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
-
-
         this.state.dataSource = ds.cloneWithRows(contactsList);
-
-        //console.log("createDataSource: ", this.state.dataSource);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -38,31 +32,26 @@ class PhoneContactsList extends Component{
 
     renderRow(contact) {
         const { givenName, familyName } = contact;
-
-
             return (
-                <View style={{ height: 40, backgroundColor: 'green', alignSelf: 'stretch' }}>
+                <View style={ styles.tableCellStyle }>
 
                         <TouchableOpacity
-                            style={{ backgroundColor: 'rgba(0,0,0,0.25)', alignSelf: 'stretch', height: 38 }}
+                            style={ styles.tableCellButtonStyle }
                             onPress={  () => this.onPhoneNumberPressed(contact)   }
                         >
-                            <Text > { givenName + ' ' + familyName }</Text>
+                            <Text style={ styles.tableCellTextStyle }> { givenName + ' ' + familyName }</Text>
                         </TouchableOpacity>
-                    <View style={{ marginBottom: 0, alignSelf: 'stretch', height: 5, backgroundColor: 'pink' }}/>
+                    <View style={ styles.tableCellBottomLineStyle }/>
                 </View>
             );
 
     }
 
-    static onBackPressed() {
-        console.log("onBackPressed");
-
+    onBackPressed() {
         Actions.pop();
     }
 
     onPhoneNumberPressed(contact) {
-        console.log(contact);
         this.props.phoneNumberWasSelected(contact.phoneNumbers[0].number);
         Actions.pop();
 
@@ -72,20 +61,22 @@ class PhoneContactsList extends Component{
         const {
             containerStyle,
             backButtonStyle,
-            backButtonTextStyle
+            backButtonTextStyle,
+            navBarStyle,
+            tableContainerStyle
         } = styles;
 
         return (
             <View style={ containerStyle }>
-                <View style={ { height: 64, backgroundColor: 'red', flexDirection: 'row', alignItems: 'center' } }>
+                <View style={ navBarStyle }>
                     <TouchableOpacity
                         style={ backButtonStyle }
-                        onPress={ PhoneContactsList.onBackPressed }
+                        onPress={ this.onBackPressed }
                     >
                         <Text style={ backButtonTextStyle }>back</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={ { flex: 1, backgroundColor: 'yellow', marginLeft: 10, marginRight: 10 } }>
+                <View style={ tableContainerStyle }>
                     <ListView
                         dataSource={this.state.dataSource}
                         renderRow={this.renderRow.bind(this)}
@@ -99,9 +90,14 @@ class PhoneContactsList extends Component{
 
 const styles = StyleSheet.create({
     containerStyle: {
-        backgroundColor: 'blue',
+        backgroundColor: '#2e3375',
         flex: 1,
         flexDirection: 'column'
+    },
+    navBarStyle: {
+        height: 64,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     backButtonStyle: {
         alignItems: 'center',
@@ -111,6 +107,33 @@ const styles = StyleSheet.create({
     },
     backButtonTextStyle: {
         color: 'white'
+    },
+    tableContainerStyle: {
+        flex: 1,
+        marginLeft: 10,
+        marginRight: 10
+    },
+    tableCellButtonStyle: {
+        backgroundColor: 'rgba(0,0,0,0.25)',
+        alignSelf: 'stretch',
+        height: 48
+    },
+    tableCellStyle: {
+        height: 50,
+        alignSelf: 'stretch',
+        marginBottom: 2
+    },
+    tableCellTextStyle: {
+        alignSelf: 'center',
+        marginTop: 12,
+        color: 'white',
+        fontSize: 18
+    },
+    tableCellBottomLineStyle: {
+        marginBottom: 0,
+        alignSelf: 'stretch',
+        height: 2,
+        backgroundColor: '#555'
     }
 });
 

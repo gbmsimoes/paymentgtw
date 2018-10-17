@@ -17,14 +17,11 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-
-    console.log(action);
-
     switch (action.type) {
         case NEW_TX_LIST:
             return { ...state, transactions: [] };
         case TX_ADDED_TO_LIST:
-            const txList = [...state.transactions, action.payload]
+            const txList = [...state.transactions, action.payload];
             return { ...state, transactions: txList };
         case TX_HASH_CHANGED:
             return { ...state, error: '', tx: {}, txHash: action.payload, loading: false };

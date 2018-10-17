@@ -13,3 +13,4 @@ export const PAYMENT_UPDATE_TX_HASH = 'payment_update_tx_hash';
 export const PAYMENTS_LIST_CREATED = 'payments_list_created';
 export const PAYMENT_CREATED = 'payment_created';
 export const PAYMENT_UPDATED = 'payment_updated';
+export const PUSH_NOTIFICATION_SEND = 'push_notification_send';
